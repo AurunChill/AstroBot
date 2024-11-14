@@ -8,22 +8,17 @@ from aiogram.utils.i18n import gettext as _
 from logger import bot_logger
 from config import settings
 from filters.access import ProfileRegistered
+from states.profile import RegistrationStates
+from database.profile.models import Profile
+from database.profile.service import (
+    find_profiles_by_user_id,
+    delete_profile,
+    create_profile,
+)
+from keyboards.inline.profile import profile_action_keyboard, profile_inline_keyboard
+from keyboards.inline.callback import ProfileCallback
 
 
-profile_router = Router(name='profile')
+profile_router = Router(name="profile")
 
-
-@profile_router(Command('profile'), ProfileRegistered())
-async def handle_profile_cmd(message: Message, state: FSMContext):
-    bot_logger.info(f'User {message.from_user.id} using command /profile')
-
-
-
-@profile_router(Command('change_profile'), ProfileRegistered())
-async def handle_change_profile_cmd(message: Message, state: FSMContext):
-    bot_logger.info(f'User {message.from_user.id} using command /change_profile')
-  
-# Commands:
-# /profile - Show user profile
-# /change_profile - Change user profile
 

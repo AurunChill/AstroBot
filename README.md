@@ -1,0 +1,1 @@
+Ссылка на схему работы: https://drive.google.com/file/d/1yl2rCT4oDNaaZN7oa_HV2HFjUfZ0oxTe/view?usp=sharing

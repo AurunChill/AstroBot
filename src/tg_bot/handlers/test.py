@@ -10,7 +10,7 @@ from aiogram.utils.i18n import gettext as _
 from logger import bot_logger
 from config import settings
 from states.test import TestStates
-from keyboards.inline.survey import (
+from tg_bot.keyboards.inline.profile import (
     test_inline_keyboard,
     TEST_1,
     TEST_2,
