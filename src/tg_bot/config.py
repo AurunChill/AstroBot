@@ -60,7 +60,7 @@ class DatabaseSettings(EnvSettings):
         if self.DB_TYPE == 'sqlite':
             return f'sqlite:///{self.SQLITE_PATH}'
         else:
-            return f'postgresql+psycopg2://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
+            return f'postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
 
 
 class LocalesSettings:

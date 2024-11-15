@@ -5,7 +5,7 @@ from aiogram.fsm.storage.base import StorageKey
 from aiogram.fsm.context import FSMContext
 
 from states.test import SurveyManuallyStates
-from tg_bot.keyboards.inline.profile import DOC_IMAGE_OPT_CD, MANUALLY_OPT_CD
+from keyboards.inline.profile import DOC_IMAGE_OPT_CD, MANUALLY_OPT_CD
 from utils import get_update, get_message, get_call
 from locales.translation import get_translation
 

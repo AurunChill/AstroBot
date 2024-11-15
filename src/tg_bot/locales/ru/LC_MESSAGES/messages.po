@@ -1,21 +1,141 @@
-# Base messages and Keyboard's buttons
-msgid "start_msg"
-msgstr "<b>Добро пожаловать в бота!</b> 👋\n\nЭтот бот предназначен для регистрации SIM-карты 🎫 на ваши паспортные данные.\n\nВы можете воспользоваться командой <b>/help</b> для получения списка 📜 доступных команд.\n\nДля начала регистрации 📱 используйте команду <b>/register</b>"
-
-msgid "help_msg"
-msgstr "Вот команды, которые вы можете использовать:\n\n<b>/start</b> - Запустить бота 🤖\n\n<b>/help</b> - Показать список команд 📜\n\n<b>/register</b> - Начать регистрацию SIM-карты 📱<b>\n\n/reset</b> - Сбросить состояние ↺"
-
+# Common buttons
 msgid "menu_msg"
-msgstr "Выберете опцию главного меню"
+msgstr "<b>Выберите опцию главного меню:</b>"
 
 msgid "horoscope_btn"
-msgstr "Гороскоп"
+msgstr "🔮 Гороскоп"
 
 msgid "event_btn"
-msgstr "События"
+msgstr "📅 События"
 
 msgid "profile_btn"
-msgstr "Профиль"
+msgstr "👤 Профиль"
 
 msgid "help_btn"
-msgstr "Помощь"
+msgstr "❓ Помощь"
+
+msgid "decline_btn"
+msgstr "❌ Отмена"
+
+msgid "declined_msg"
+msgstr "Команда отменена!"
+
+msgid "user_not_found_msg"
+msgstr "Пользователь не найден! Воспользуйтесь командой /start!"
+
+
+# Base messages and Keyboard's buttons
+msgid "start_msg"
+msgstr "<b>Добро пожаловать в нашего бота!</b> 👋 <i>Давайте начнем!</i>"
+
+msgid "help_msg"
+msgstr "<b>Вот команды, которые вы можете использовать:</b> 📋"
+
+
+# Profile messages and Keyboard's buttons
+msgid "max_profiles_msg"
+msgstr "Нельзя иметь больше 3-х профилей на аккаунт!"
+
+msgid "send_prof_name_msg"
+msgstr "✨ <b>Отправьте имя профиля.</b> Например: <i>хуба-буба</i>"
+
+msgid "prof_name_err_msg"
+msgstr "<b>Ошибка!</b> ⚠️ Попробуйте ввести имя профиля еще раз!"
+
+msgid "send_birth_date_msg"
+msgstr "🎉 <b>Отправьте дату рождения.</b> Например: <i>20.12.2004</i>"
+
+msgid "birth_date_err_msg"
+msgstr "<b>Ошибка!</b> ⚠️ Попробуйте ввести дату рождения еще раз!"
+
+msgid "send_birth_time_msg"
+msgstr "🕒 <b>Отправьте время рождения.</b> Например: <i>00:23</i>. По умолчанию: <i>00:00</i>"
+
+msgid "birth_time_err_msg"
+msgstr "<b>Ошибка!</b> ⚠️ Попробуйте ввести время рождения еще раз!"
+
+msgid "send_birth_location_msg"
+msgstr "📍 <b>Отправьте геолокацию места вашего рождения.</b>"
+
+msgid "birth_location_err_msg"
+msgstr "<b>Ошибка!</b> ⚠️ Отправьте геолокацию!"
+
+msgid "send_current_location_msg"
+msgstr "🌍 <b>Отправьте геолокацию вашего текущего расположения.</b>"
+
+msgid "current_location_err_msg"
+msgstr "<b>Ошибка!</b> ⚠️ Отправьте геолокацию!"
+
+msgid "new_profile_msg"
+msgstr "🎉 <b>Создан новый профиль!</b>"
+
+msgid "error_setting_current_profile_msg"
+msgstr "Ошибка создания профиля!"
+
+msgid "add_profile_msg"
+msgstr "✨ <b>Добавлен новый профиль!</b>"
+
+msgid "share_location_btn"
+msgstr "Поделится местоположением"
+
+
+# Profile handler messages
+msgid "change_profile_btn"
+msgstr "Поменять профиль"
+
+msgid "change_data_btn"
+msgstr "Изменить данные"
+
+msgid "delete_profile_btn"
+msgstr "Удалить профиль"
+
+msgid "change_subscription_btn"
+msgstr "Изменить статус"
+
+msgid "choose_profile_msg"
+msgstr "Выберите профиль или создайте новый"
+
+msgid "add_profile_btn"
+msgstr "Добавить профиль"
+
+msgid "profile_changed_msg"
+msgstr "Выбран другой профиль /profile"
+
+msgid "profile_deleted_changed_msg"
+msgstr "Профиль удален! Другой профиль стал основным"
+
+msgid "profile_deleted_new_msg"
+msgstr "Профиль удален! Зарегистрируйте новый профиль /profile!
+
+msgid "prefer_to_change_msg"
+msgstr "Что хотите изменить?"
+
+msgid "profile_change_title_btn"
+msgstr "Название"
+
+msgid "profile_change_birth_date_btn"
+msgstr "Дата рождения"
+
+msgid "profile_change_birth_time_btn"
+msgstr "Время рождения"
+
+msgid "profile_change_birth_location_btn"
+msgstr "Место рождения"
+
+msgid "profile_change_location_btn"
+msgstr "Местоположение"
+
+msgid "title_changed_msg"
+msgstr "Название профиля поменялось!"
+
+msgid "birth_date_changed_msg"
+msgstr "Дата рождения поменялось!"
+
+msgid "birth_time_changed_msg"
+msgstr "Время рождения поменялось!"
+
+msgid "birth_location_changed_msg"
+msgstr "Место рождения поменялось!"
+
+msgid "current_location_changed_msg"
+msgstr "Местоположение поменялось!"

@@ -1,6 +1,6 @@
 from aiogram.fsm.state import StatesGroup, State
 
-class ChangeDataStates(StatesGroup):
+class RegistrationStates(StatesGroup):
     title = State()
     birth_date = State()
     birth_time = State()

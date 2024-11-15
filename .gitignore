@@ -187,3 +187,4 @@ fabric.properties
 
 # Alembic
 **/migrations/versions/*.py
+**/alembic/versions/*.py

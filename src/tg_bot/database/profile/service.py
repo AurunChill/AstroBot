@@ -1,72 +1,98 @@
-from sqlalchemy import select, update
+from sqlalchemy import select
 from typing import List, Optional
 
 from database.profile.models import Profile
+from database.user.models import User
 from logger import db_query_logger as logger
-from database.db import session_maker
+from database.db import async_session_maker
 
 
 async def create_profile(profile: Profile) -> Profile:
     """Create a new profile record."""
-    async with session_maker() as session:
+    async with async_session_maker() as session:
         session.add(profile)
         await session.commit()
         await session.refresh(profile)
-        logger.info(f'Profile created: {profile}')
+        logger.info(f"Profile created: {profile}")
         return profile
 
 
 async def find_profile_by_id(profile_id: int) -> Optional[Profile]:
     """Find a profile by its ID."""
-    async with session_maker() as session:
+    async with async_session_maker() as session:
         stmt = select(Profile).where(Profile.id == profile_id)
         result = await session.execute(stmt)
         profile = result.scalars().first()
-        logger.info(f'Profile fetched by ID {profile_id}: {profile}')
+        logger.info(f"Profile fetched by ID {profile_id}: {profile}")
         return profile
 
 
 async def find_profiles_by_user_id(user_id: int) -> List[Profile]:
     """Find all profiles associated with a user ID."""
-    async with session_maker() as session:
+    async with async_session_maker() as session:
         stmt = select(Profile).where(Profile.user_id == user_id)
         result = await session.execute(stmt)
         profiles = result.scalars().all()
-        logger.info(f'Profiles fetched for user ID {user_id}: {profiles}')
+        logger.info(f"Profiles fetched for user ID {user_id}: {profiles}")
         return profiles
 
 
-async def update_profile(profile_id: int, updated_data: Profile) -> Optional[Profile]:
-    """Update a profile's data."""
-    async with session_maker() as session:
-        stmt = update(Profile).where(Profile.id == profile_id).values(
-            user_name=updated_data.user_name,
-            title=updated_data.title,
-            birth_date=updated_data.birth_date,
-            birth_time=updated_data.birth_time,
-            birth_timezone=updated_data.birth_timezone,
-            birth_latitude=updated_data.birth_latitude,
-            birth_longitude=updated_data.birth_longitude,
-            location_latitude=updated_data.location_latitude,
-            location_longitude=updated_data.location_longitude,
+async def find_current_profile_by_user_id(user_id: int) -> Optional[Profile]:
+    """Find the current profile associated with a user ID."""
+    async with async_session_maker() as session:
+        stmt = (
+            select(Profile)
+            .join(User, Profile.user_id == User.id)
+            .where(Profile.id == User.current_profile_id, User.id == user_id)
         )
-        await session.execute(stmt)
-        await session.commit()
+        result = await session.execute(stmt)
+        profile = result.scalars().first()
+        logger.info(f"Current profile fetched for user ID {user_id}: {profile}")
+        return profile
 
-        updated_profile = await find_profile_by_id(profile_id)
-        logger.info(f'Profile updated: {updated_profile}')
-        return updated_profile
+
+async def update_profile(
+    profile_id: int, updated_profile: Profile
+) -> Optional[Profile]:
+    """Update a profile's data dynamically without explicitly naming columns."""
+    async with async_session_maker() as session:
+        stmt = select(Profile).where(Profile.id == profile_id)
+        result = await session.execute(stmt)
+        existing_profile = result.scalars().first()
+
+        if not existing_profile:
+            logger.warning(f"Profile with ID {profile_id} not found for update.")
+            return None
+
+        for key, value in updated_profile.__dict__.items():
+            if key != "_sa_instance_state" and hasattr(Profile, key) and key != "id":
+                setattr(existing_profile, key, value)
+
+        await session.commit()
+        await session.refresh(existing_profile)
+        logger.info(f"Profile updated: {existing_profile}")
+        return existing_profile
 
 
 async def delete_profile(profile_id: int) -> Optional[Profile]:
     """Delete a profile by its ID."""
-    async with session_maker() as session:
-        profile = await find_profile_by_id(profile_id)
+    async with async_session_maker() as session:
+        stmt = select(Profile).where(Profile.id == profile_id)
+        result = await session.execute(stmt)
+        profile = result.scalars().first()
+
         if profile is None:
-            logger.warning(f'Profile with ID {profile_id} not found for deletion.')
+            logger.warning(f"Profile with ID {profile_id} not found for deletion.")
             return None
+
+        # Set current_profile_id to None for users who have this profile as current_profile_id
+        stmt = select(User).where(User.current_profile_id == profile_id)
+        result = await session.execute(stmt)
+        users = result.scalars().all()
+        for user in users:
+            user.current_profile_id = None
 
         await session.delete(profile)
         await session.commit()
-        logger.info(f'Profile deleted: {profile}')
+        logger.info(f"Profile deleted: {profile}")
         return profile
