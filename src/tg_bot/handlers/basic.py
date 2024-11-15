@@ -15,7 +15,7 @@ basic_router = Router(name='basic')
 async def create_user_if_not_exists(user_id: int, user_name: str):
     db_user = await find_user_by_id(user_id=user_id)
     if not db_user:
-        await create_user(user=User(id=user_id, name=user_name))
+        await create_user(user=User(id=user_id, name=user_name, locale='ru'))
         bot_logger.info(f'User {user_id} created')
 
 

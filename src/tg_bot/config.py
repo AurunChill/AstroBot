@@ -31,15 +31,15 @@ class GPTSettings(EnvSettings):
     OPENAI_API_KEY: str
 
     @property
-    def GPT_MODEL():
+    def GPT_MODEL(self):
         return 'gpt-4o-mini'
 
     @property
-    def BASE_URL():
+    def BASE_URL(self):
         return 'https://api.proxyapi.ru/openai/v1'
     
     @property
-    def GPT_TEMPLATES_PATH():
+    def GPT_TEMPLATES_PATH(self):
         return TG_BOT_FOLDER / 'gpt' / 'templates'
     
 

@@ -139,3 +139,26 @@ msgstr "Место рождения поменялось!"
 
 msgid "current_location_changed_msg"
 msgstr "Местоположение поменялось!"
+
+
+# Horoscope handler
+msgid "create_horoscope_option_msg"
+msgstr "Сделать расчет на"
+
+msgid "today_btn"
+msgstr "Сегодня"
+
+msgid "month_btn"
+msgstr "Месяц"
+
+msgid "date_btn"
+msgstr "Дату"
+
+msgid "mail_btn"
+msgstr "Рассылка"
+
+msgid "ask_date_msg"
+msgstr "Введите дату. Пример: 20.12.2024"
+
+mgsid "date_error_msg"
+msgstr "Ошибка! Введите дату еще раз!"

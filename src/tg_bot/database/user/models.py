@@ -23,10 +23,14 @@ class User(Base):
     __tablename__ = 'User'
 
     id: Mapped[BigInteger] = mapped_column(
-        BigInteger, unique=True, index=True, nullable=False, primary_key=True, autoincrement=True
+        BigInteger, unique=True, index=True, nullable=False, primary_key=True
     )
 
     name: Mapped[str] = mapped_column(
+        String, nullable=False
+    )
+
+    locale: Mapped[str] = mapped_column(
         String, nullable=False
     )
 

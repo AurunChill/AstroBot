@@ -1,60 +1,55 @@
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List, Optional
-from datetime import datetime
+from typing import Optional
 
-from database.predictions.models import Prediction
 from logger import db_query_logger as logger
+from database.predictions.models import Prediction, PredictionType
+from database.db import async_session_maker
 
 
-async def create_prediction(
-    session: AsyncSession, prediction: Prediction
-) -> Prediction:
+async def create_prediction(prediction: Prediction) -> Prediction:
     """Create a new prediction record."""
-    session.add(prediction)
-    await session.commit()
-    await session.refresh(prediction)
-    logger.info(f"Prediction created: {prediction}")
-    return prediction
+    async with async_session_maker() as session:
+        session.add(prediction)
+        await session.commit()
+        await session.refresh(prediction)
+        logger.info(f"Prediction created: {prediction}")
+        return prediction
 
 
-async def delete_prediction(
-    session: AsyncSession, prediction_id: int
-) -> Optional[Prediction]:
+async def delete_prediction(prediction_id: int) -> Optional[Prediction]:
     """Delete a prediction by its ID."""
-    prediction = await find_prediction_by_id(session, prediction_id)
-    if prediction is None:
-        logger.warning(f"Prediction with ID {prediction_id} not found for deletion.")
-        return None
+    async with async_session_maker() as session:
+        prediction = await find_prediction_by_id(prediction_id)
+        if prediction is None:
+            logger.warning(
+                f"Prediction with ID {prediction_id} not found for deletion."
+            )
+            return None
 
-    await session.delete(prediction)
-    await session.commit()
-    logger.info(f"Prediction deleted: {prediction}")
-    return prediction
+        await session.delete(prediction)
+        await session.commit()
+        logger.info(f"Prediction deleted: {prediction}")
+        return prediction
 
 
-async def find_prediction_by_id(
-    session: AsyncSession, prediction_id: int
-) -> Optional[Prediction]:
+async def find_prediction_by_id(prediction_id: int) -> Optional[Prediction]:
     """Find a prediction by its ID."""
-    stmt = select(Prediction).where(Prediction.id == prediction_id)
-    result = await session.execute(stmt)
-    prediction = result.scalars().first()
-    logger.info(f"Prediction fetched by ID {prediction_id}: {prediction}")
-    return prediction
+    async with async_session_maker() as session:
+        stmt = select(Prediction).where(Prediction.id == prediction_id)
+        result = await session.execute(stmt)
+        prediction = result.scalars().first()
+        logger.info(f"Prediction fetched by ID {prediction_id}: {prediction}")
+        return prediction
 
 
-async def find_prediction_by_profile_id_and_date(
-    session: AsyncSession, profile_id: int, prediction_date: datetime
-) -> List[Prediction]:
-    """Find predictions by profile ID and prediction date."""
-    stmt = select(Prediction).where(
-        Prediction.profile_id == profile_id,
-        Prediction.prediction_date == prediction_date,
-    )
-    result = await session.execute(stmt)
-    predictions = result.scalars().all()
-    logger.info(
-        f"Predictions fetched for profile ID {profile_id} and date {prediction_date}: {predictions}"
-    )
-    return predictions
+async def find_prediction_by_recognition_and_type(recognition_str: str, prediction_type: PredictionType) -> Optional[Prediction]:
+    """Find a prediction by its recognition string and prediction type."""
+    async with async_session_maker() as session:
+        stmt = select(Prediction).where(
+            Prediction.recognition_str == recognition_str,
+            Prediction.prediction_type == prediction_type
+        )
+        result = await session.execute(stmt)
+        prediction = result.scalars().first()
+        logger.info(f"Prediction fetched by recognition string {recognition_str} and prediction type {prediction_type}: {prediction}")
+        return prediction
