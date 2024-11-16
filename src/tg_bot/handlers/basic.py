@@ -24,7 +24,7 @@ async def handle_start_cmd(message: Message, state: FSMContext):
     bot_logger.info(f'User {message.from_user.id} using command /start')
     user = message.from_user
     await create_user_if_not_exists(user_id=user.id, user_name=user.full_name)
-    await message.answer(text=_('start_msg'))
+    await message.answer(text=_('start_msg'), reply_markup=await get_menu_reply())
 
 
 @basic_router.message(Command('help'))

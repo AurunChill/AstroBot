@@ -24,7 +24,7 @@ from database.predictions.service import create_prediction, find_prediction_by_r
 horoscope_router = Router(name="horoscope")
 
 
-async def make_horoscope(user_id: int, date: str):
+async def make_horoscope(user_id: int, date: str) -> str:
     match date:
         case 'today':
             recognition_str = datetime.today().strftime('%d.%m.%Y')
@@ -47,7 +47,7 @@ async def make_horoscope(user_id: int, date: str):
     else:
         template = await load_template(locale=user.locale, template_type=TemplateType.HOROSCOPE)
         prompt = await inject_profile_into_template(
-            date=date, template=template, profile=user_profile
+            extra=date, template=template, profile=user_profile
         )
         response = await send_gpt_request(prompt=prompt)
 

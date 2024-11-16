@@ -29,9 +29,9 @@ async def load_template(locale: str, template_type: TemplateType):
     return template
 
 
-async def inject_profile_into_template(date: str, template: str, profile: Profile) -> str:
+async def inject_profile_into_template(extra: str, template: str, profile: Profile) -> str:
     return template.format(
-        date,
+        extra,
         profile.birth_date, 
         profile.birth_time,
         str(profile.birth_latitude) + ' ' + str(profile.birth_longitude),

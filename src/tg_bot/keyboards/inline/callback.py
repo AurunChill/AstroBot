@@ -17,3 +17,15 @@ class HoroscopeCallback:
     MONTH = 'horo_month'
     DATE = 'horo_date'
     MAIL = 'horo_mail'
+
+
+class EventsCallback:
+    STUDY = 'event_study'
+    MOOD = 'event_mood'
+    LOVE = 'event_love'
+    INCOME = 'event_income'
+    SUCCESS = 'event_success'
+    DURATION_45 = 'event_duration_45'
+    DURATION_90 = 'event_duration_90'
+    DURATION_180 = 'event_duration_180'
+    DURATION_365 = 'event_duration_365'
