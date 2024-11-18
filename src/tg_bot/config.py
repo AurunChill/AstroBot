@@ -27,8 +27,19 @@ class LoggingSettings:
     LOG_PATH = PROJECT_PATH / 'logs'
 
 
+class ServerSettings(EnvSettings):
+    SERVER_HOST: str
+    SERVER_PORT: int
+    SERVER_SECRET_KEY: str
+
+
 class LocationSettings(EnvSettings):
     DECODER_API_KEY: str
+
+
+class AdminSettings(EnvSettings):
+    ADMIN_USERNAME: str
+    ADMIN_PASSWORD: str
 
 
 class GPTSettings(EnvSettings):
@@ -74,10 +85,12 @@ class LocalesSettings:
 
 
 class Settings:
+    admin = AdminSettings()
     bot = BotSettings()
     log = LoggingSettings()
     database = DatabaseSettings()
     locales = LocalesSettings()
+    server = ServerSettings()
     location = LocationSettings()
     gpt = GPTSettings()
 
