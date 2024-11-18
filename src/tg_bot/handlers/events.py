@@ -29,6 +29,17 @@ from database.predictions.service import (
 event_router = Router(name="event-router")
 
 
+async def shorten_event(sub: Subscription, event: str) -> str:
+    if sub is Subscription.FREELY:
+        crop_idx = len(event) // 3
+        return event[:crop_idx] + '...'
+    return event
+
+
+async def format_event(sub: Subscription, event: str) -> str:
+    return await shorten_event(sub=sub, event=event) + '\n\n' + _('freely_unavailable_msg')
+
+
 async def make_event(user_id: int, theme: str, duration: str) -> str:
     data = datetime.today().strftime('%m.%Y') + ' ' + theme + ' ' + duration
     user = await find_user_by_id(user_id=user_id)
@@ -41,7 +52,7 @@ async def make_event(user_id: int, theme: str, duration: str) -> str:
     )
 
     if db_event:
-        return db_event.prediction
+        return await format_event(sub=user.subscription, event=db_event.prediction)
     else:
         template = await load_template(locale=user.locale, template_type=TemplateType.EVENT)
         prompt = await inject_profile_into_template(
@@ -56,7 +67,7 @@ async def make_event(user_id: int, theme: str, duration: str) -> str:
             recognition_str = data
         ))
 
-        return response
+        return await format_event(sub=user.subscription, event=response)
 
 
 @event_router.message(Command("events"))
@@ -117,45 +128,40 @@ async def handle_success_callback(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
 
-@event_router.callback_query(F.data.startswith(EventsCallback.DURATION_45))
-async def handle_duration_45_callback(callback: CallbackQuery, state: FSMContext):
-    bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
+async def handle_duration_callback(callback: CallbackQuery, duration: str) -> str:
     data = callback.data.split()
     theme = data[1]
     user_id = callback.message.chat.id
-    event = await make_event(user_id=user_id,theme=theme, duration="45")
+    wait_msg = await callback.message.answer(text=_('wait_calc_msg'))
+    event = await make_event(user_id=user_id,theme=theme, duration=duration)
+    await wait_msg.delete()
     await callback.message.answer(text=event, reply_markup=await get_menu_reply())
+    
+    
+
+@event_router.callback_query(F.data.startswith(EventsCallback.DURATION_45))
+async def handle_duration_45_callback(callback: CallbackQuery, state: FSMContext):
+    bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
+    await handle_duration_callback(callback=callback, duration="45")
     await callback.answer()
 
 
 @event_router.callback_query(F.data.startswith(EventsCallback.DURATION_90))
 async def handle_duration_90_callback(callback: CallbackQuery, state: FSMContext):
     bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
-    data = callback.data.split()
-    theme = data[1]
-    user_id = callback.message.chat.id
-    event = await make_event(user_id=user_id, theme=theme, duration="90")
-    await callback.message.answer(text=event, reply_markup=await get_menu_reply())    
+    await handle_duration_callback(callback=callback, duration="90")   
     await callback.answer()
 
 
 @event_router.callback_query(F.data.startswith(EventsCallback.DURATION_180))
 async def handle_duration_180_callback(callback: CallbackQuery, state: FSMContext):
     bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
-    data = callback.data.split()
-    theme = data[1]
-    user_id = callback.message.chat.id
-    event = await make_event(user_id=user_id, theme=theme, duration="180")
-    await callback.message.answer(text=event, reply_markup=await get_menu_reply())
+    await handle_duration_callback(callback=callback, duration="180")
     await callback.answer()
 
 
 @event_router.callback_query(F.data.startswith(EventsCallback.DURATION_365))
 async def handle_duration_365_callback(callback: CallbackQuery, state: FSMContext):
     bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
-    data = callback.data.split()
-    theme = data[1]
-    user_id = callback.message.chat.id
-    event = await make_event(user_id=user_id, theme=theme, duration="365")
-    await callback.message.answer(text=event, reply_markup=await get_menu_reply())
+    await handle_duration_callback(callback=callback, duration="365")
     await callback.answer()

@@ -25,3 +25,27 @@ async def get_horo_inline():
             ],
         ]
     )
+
+
+async def get_subscribe_inline():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=_("mail_subscribe_btn"), callback_data=HoroscopeCallback.SUBSCRIBE
+                ),
+            ],
+        ]
+    )
+
+
+async def get_unsubscribe_inline():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=_("mail_unsubscribe_btn"), callback_data=HoroscopeCallback.UNSUBSCRIBE
+                ),
+            ],
+        ]
+    )

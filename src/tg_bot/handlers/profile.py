@@ -20,6 +20,7 @@ from keyboards.inline.profile import (
     get_change_profile_data_inline,
 )
 from database.user.service import find_user_by_id, update_user
+from database.profile.models import Profile
 from database.profile.service import (
     find_current_profile_by_user_id,
     find_profiles_by_user_id,
@@ -33,12 +34,23 @@ from keyboards.reply.common import get_decline_reply
 profile_router = Router(name="profile")
 
 
+async def format_profile(profile: Profile, locale: str) -> str:
+    return (
+        f'{_("profile_title_msg")} {profile.title}\n\n'
+        f'{_("profile_birth_msg")} {profile.birth_date.strftime("%d.%m.%Y")} {profile.birth_time.strftime("%H:%M")}\n\n'
+        f'{_("profile_birth_location_msg")} {profile.birth_location_name}\n\n'
+        f'{_("profile_location_msg")} {profile.location_name}'
+    )
+
+
 @profile_router.message(Command("profile"), ProfileRegistered())
 async def handle_profile_cmd(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} using command /profile")
     user_id = message.from_user.id
+    user = await find_user_by_id(user_id=user_id)
     profile = await find_current_profile_by_user_id(user_id=user_id)
-    await message.answer(str(profile), reply_markup=await get_profile_inline())
+    profile_text = await format_profile(profile=profile, locale=user.locale)
+    await message.answer(text=profile_text, reply_markup=await get_profile_inline())
 
 
 @profile_router.callback_query(F.data.startswith(ProfileCallback.CHANGE_PROFILE))
@@ -235,7 +247,8 @@ async def handle_profile_change_birth_location(message: Message, state: FSMConte
         current_profile.birth_longitude = float(message.location.longitude)
         current_profile.birth_latitude = float(message.location.latitude)
         await update_profile(
-            profile_id=current_profile.id, updated_profile=current_profile
+            profile_id=current_profile.id, updated_profile=current_profile,
+            update_birth_location=True
         )
         await message.answer(
             text=_("birth_location_changed_msg"), reply_markup=await get_menu_reply()
@@ -254,7 +267,8 @@ async def handle_profile_change_current_location(message: Message, state: FSMCon
         current_profile.location_longitude = float(message.location.longitude)
         current_profile.location_latitude = float(message.location.latitude)
         await update_profile(
-            profile_id=current_profile.id, updated_profile=current_profile
+            profile_id=current_profile.id, updated_profile=current_profile,
+            update_location=True
         )
         await message.answer(
             text=_("current_location_changed_msg"), reply_markup=await get_menu_reply()

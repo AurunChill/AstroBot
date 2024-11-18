@@ -1,0 +1,210 @@
+# Common buttons
+msgid "menu_msg"
+msgstr "<b>📋 Select a menu option!</b>"
+
+msgid "horoscope_btn"
+msgstr "🔮 Horoscope"
+
+msgid "event_btn"
+msgstr "📅 Events"
+
+msgid "profile_btn"
+msgstr "👤 Profile"
+
+msgid "help_btn"
+msgstr "❓ Help"
+
+msgid "decline_btn"
+msgstr "❌ Cancel"
+
+msgid "declined_msg"
+msgstr "<b>❌ Command cancelled!</b>"
+
+msgid "user_not_found_msg"
+msgstr "<b>👀 User not found!</b>\n\nPlease use the <i>/start</i> command to begin"
+
+msgid "not_registered"
+msgstr "<b>You are not registered!</b>\n\nPlease use the <i>/register</i> command to continue"
+
+# Base messages and Keyboard's buttons
+msgid "start_msg"
+msgstr "<b>Welcome to the world of astrology!</b> ✨\n\nThis bot will help you calculate horoscopes and learn important dates and events that will occur in your life based on your birth data. Just provide your date, time, and place of birth, and we will perform an astrological calculation for you!\n\n<b>May the stars guide you!</b> 🌟 Discover new things as you dive into the exciting world of the cosmos and magic!"
+
+msgid "help_msg"
+msgstr "<b>📋 Here is a list of available commands:</b>\n\n<i>/help</i> - view available commands\n<i>/profile</i> - edit profile data\n<i>/horoscope</i> - calculate the energy of the day/month\n<i>/events</i> - calculate events and their dates\n<i>/sub</i> - change account status\n\n<i>/menu</i> - main menu"
+
+msgid "lang_msg"
+msgstr "Choose a language"
+
+msgid "russian_btn"
+msgstr "Russian"
+
+msgid "english_btn"
+msgstr "English"
+
+msgid "lang_updated_msg"
+msgstr "Language updated!"
+
+# Profile messages and Keyboard's buttons
+msgid "max_profiles_msg"
+msgstr "<b>❌ You have already created the maximum number of profiles (3) on one account!</b>"
+
+msgid "send_prof_name_msg"
+msgstr "✨ <b>Send the profile name</b>\n\nFor example: <i>huba-buba</i>"
+
+msgid "prof_name_err_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the profile name again!"
+
+msgid "send_birth_date_msg"
+msgstr "🎉🎂 <b>Send the date of birth</b>\n\nFor example: <i>20.12.2004</i>"
+
+msgid "birth_date_err_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the date of birth again!"
+
+msgid "send_birth_time_msg"
+msgstr "🕒 <b>Send the time of birth</b>\n\nFor example: <i>00:23</i>. Default: <i>00:00</i>"
+
+msgid "birth_time_err_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the time of birth again!"
+
+msgid "send_birth_location_msg"
+msgstr "📍 <b>Send the geolocation of your birthplace</b>"
+
+msgid "birth_location_err_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease send geolocation."
+
+msgid "send_current_location_msg"
+msgstr "🌍 <b>Please send the geolocation of your current location</b>"
+
+msgid "current_location_err_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease send geolocation."
+
+msgid "new_profile_msg"
+msgstr "🎉 <b>New profile successfully created!</b>\n\nUse the <i>/profile</i> command"
+
+msgid "error_setting_current_profile_msg"
+msgstr "<b>❌ Error creating profile!</b>"
+
+msgid "add_profile_msg"
+msgstr "✨ <b>New profile added!</b>\n\nUse the <i>/profile</i> command"
+
+msgid "share_location_btn"
+msgstr "📍 Share location"
+
+# Profile handler messages
+msgid "change_profile_btn"
+msgstr "🔄 Change profile"
+
+msgid "change_data_btn"
+msgstr "🔧 Change data"
+
+msgid "delete_profile_btn"
+msgstr "🗑️ Delete profile"
+
+msgid "change_subscription_btn"
+msgstr "👑 Change status"
+
+msgid "choose_profile_msg"
+msgstr "🔍 Choose an <b>existing</b> profile or create a <b>new</b> one"
+
+msgid "add_profile_btn"
+msgstr "➕ Add profile"
+
+msgid "profile_changed_msg"
+msgstr "✅ <b>Profile successfully changed!</b>\n\nUse <i>/profile</i> to manage"
+
+msgid "profile_deleted_changed_msg"
+msgstr "🗑️ <b>Profile deleted!</b>\n\nAnother profile has become the main one!"
+
+msgid "profile_deleted_new_msg"
+msgstr "🗑️ <b>Profile deleted!</b>\n\nPlease register a new profile using <i>/register</i>"
+
+msgid "prefer_to_change_msg"
+msgstr "🔧 What would you like to change?"
+
+msgid "profile_change_title_btn"
+msgstr "✏️ Title"
+
+msgid "profile_change_birth_date_btn"
+msgstr "🎂 Date of birth"
+
+msgid "profile_change_birth_time_btn"
+msgstr "🕒 Time of birth"
+
+msgid "profile_change_birth_location_btn"
+msgstr "📍 Place of birth"
+
+msgid "profile_change_location_btn"
+msgstr "📌 Location"
+
+msgid "title_changed_msg"
+msgstr "✏️ <b>Profile title changed!</b>"
+
+msgid "birth_date_changed_msg"
+msgstr "🎂 <b>Date of birth changed!</b>"
+
+msgid "birth_time_changed_msg"
+msgstr "🕒 <b>Time of birth changed!</b>"
+
+msgid "birth_location_changed_msg"
+msgstr "📍 <b>Place of birth changed!</b>"
+
+msgid "current_location_changed_msg"
+msgstr "📌 <b>Location changed!</b>"
+
+# Horoscope handler
+msgid "create_horoscope_option_msg"
+msgstr "<b>🔮 Choose a period for horoscope calculation!</b>"
+
+msgid "today_btn"
+msgstr "📅 Today"
+
+msgid "month_btn"
+msgstr "📆 Month"
+
+msgid "date_btn"
+msgstr "📅 Date"
+
+msgid "mail_btn"
+msgstr "📧 Newsletter"
+
+msgid "ask_date_msg"
+msgstr "📅 Enter the date. Example: <i>20.12.2024</i>"
+
+msgid "date_error_msg"
+msgstr "⚠️ <b>Error!</b>\n\nPlease enter the date again"
+
+# Events handler
+msgid "wanna_date_msg"
+msgstr "📅 Want to know the date of events?"
+
+msgid "event_study_btn"
+msgstr "📚 Study"
+
+msgid "event_mood_btn"
+msgstr "😊 Mood"
+
+msgid "event_love_btn"
+msgstr "❤️ Love"
+
+msgid "event_income_btn"
+msgstr "💰 Income"
+
+msgid "event_success_btn"
+msgstr "🏆 Success"
+
+msgid "choose_duration_msg"
+msgstr "⌛ Choose a time interval:"
+
+msgid "event_duration_45_btn"
+msgstr "📆 45 days"
+
+msgid "event_duration_90_btn"
+msgstr "📆 90 days"
+
+msgid "event_duration_180_btn"
+msgstr "📆 180 days"
+
+msgid "event_duration_365_btn"
+msgstr "📆 365 days"
+

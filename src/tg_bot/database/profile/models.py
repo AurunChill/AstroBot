@@ -8,7 +8,6 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
-from geopy.geocoders import Nominatim
 
 from datetime import date, time
 
@@ -54,6 +53,10 @@ class Profile(Base):
         Float, nullable=False
     )
 
+    birth_location_name: Mapped[str] = mapped_column(
+        String, nullable=True
+    )
+
     location_latitude: Mapped[float] = mapped_column(
         Float, nullable=False
     )
@@ -66,23 +69,12 @@ class Profile(Base):
         String, nullable=False
     )
 
-    def get_location(self):
-        """Fetch location description using latitude and longitude."""
-        geolocator = Nominatim(user_agent="geoapiExercises")
-        location = geolocator.reverse((self.location_latitude, self.location_longitude), language='en')
-        return location.address if location else "Location not found"
+    location_name: Mapped[str] = mapped_column(
+        String, nullable=True
+    )
 
     def __doc__(self):
         return f'{self.__class__.__name__}({self.id})'
 
     def __str__(self):
-        return (f"Profile Title: {self.title}\n"
-                f"Birth Date: {self.birth_date.strftime('%Y-%m-%d')}\n"
-                f"Birth Time: {self.birth_time.strftime('%H:%M')}\n"
-                f"Birth Timezone: {self.birth_timezone}\n"
-                f"Birth Latitude: {self.birth_latitude}\n"
-                f"Birth Longitude: {self.birth_longitude}\n"
-                f"Location Latitude: {self.location_latitude}\n"
-                f"Location Longitude: {self.location_longitude}\n"
-                f"Location Timezone: {self.location_timezone}\n")
-                # f"Location Description: {self.get_location()}\n") 
+        return f'Profile({self.id})'

@@ -48,6 +48,10 @@ class User(Base):
         DateTime, nullable=True, default=None
     )
 
+    is_mail_subscribed: Mapped[bool] = mapped_column(
+        nullable=False, default=True
+    )
+
     def __doc__(self):
         return f'{self.__class__.__name__}({self.id})'
 

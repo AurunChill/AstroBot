@@ -27,6 +27,10 @@ class LoggingSettings:
     LOG_PATH = PROJECT_PATH / 'logs'
 
 
+class LocationSettings(EnvSettings):
+    DECODER_API_KEY: str
+
+
 class GPTSettings(EnvSettings):
     OPENAI_API_KEY: str
 
@@ -74,6 +78,7 @@ class Settings:
     log = LoggingSettings()
     database = DatabaseSettings()
     locales = LocalesSettings()
+    location = LocationSettings()
     gpt = GPTSettings()
 
 

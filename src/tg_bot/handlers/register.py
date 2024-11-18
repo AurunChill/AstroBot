@@ -10,6 +10,7 @@ import pytz
 from datetime import datetime, time
 
 from logger import bot_logger
+from utils import get_location
 from keyboards.reply.common import get_menu_reply, get_decline_reply
 from keyboards.reply.register import get_location_reply
 from states.register import RegistrationStates
@@ -108,6 +109,7 @@ async def handle_current_location_state(message: Message, state: FSMContext):
 
 async def process_data(fsm_data: dict, user: User) -> Profile:
     user_id = user.id
+    user = await find_user_by_id(user_id=user_id)
     title = fsm_data.get("title")
     
     try:
@@ -131,6 +133,10 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
     birth_offset = birth_timezone.utcoffset(datetime.now()).total_seconds() // 3600
     birth_timezone_offset = f"{'+' if birth_offset >= 0 else '-'}{abs(int(birth_offset))}"
 
+    birth_location_name = await get_location(
+        locale=user.locale, latitude=birth_latitude, longitude=birth_longitude
+    )
+
     location_latitude = float(fsm_data.get("location_latitude"))
     location_longitude = float(fsm_data.get("location_longitude"))
 
@@ -141,6 +147,10 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
     location_offset = location_timezone.utcoffset(datetime.now()).total_seconds() // 3600
     location_timezone_offset = f"{'+' if location_offset >= 0 else '-'}{abs(int(location_offset))}"
 
+    location_name = await get_location(
+        locale=user.locale, latitude=location_latitude, longitude=location_longitude
+    )
+
     profile = Profile(
         user_id=user_id,
         title=title,
@@ -149,9 +159,11 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
         birth_latitude=birth_latitude,
         birth_longitude=birth_longitude,
         birth_timezone=birth_timezone_offset,
+        birth_location_name=birth_location_name,
         location_latitude=location_latitude,
         location_longitude=location_longitude,
         location_timezone=location_timezone_offset,
+        location_name=location_name
     )
 
     return await create_profile(profile=profile)

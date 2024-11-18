@@ -1,3 +1,6 @@
+class BasicCallback:
+    LANGUAGE = 'language'
+
 class ProfileCallback:
     CHANGE_PROFILE = 'change_profile'
     CHANGE_DATA = 'change_data'
@@ -17,6 +20,8 @@ class HoroscopeCallback:
     MONTH = 'horo_month'
     DATE = 'horo_date'
     MAIL = 'horo_mail'
+    SUBSCRIBE = 'horo_subscribe'
+    UNSUBSCRIBE = 'horo_unsubscribe'
 
 
 class EventsCallback:
