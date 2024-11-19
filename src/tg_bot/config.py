@@ -32,13 +32,10 @@ class LoggingSettings:
 
 
 class ServerSettings(EnvSettings):
+    SERVER_ACTUAL_HOST: str
     SERVER_HOST: str
     SERVER_PORT: int
     SERVER_SECRET_KEY: str
-
-
-class LocationSettings(EnvSettings):
-    DECODER_API_KEY: str
 
 
 class AdminSettings(EnvSettings):
@@ -100,7 +97,6 @@ class Settings:
     database = DatabaseSettings()
     locales = LocalesSettings()
     server = ServerSettings()
-    location = LocationSettings()
     gpt = GPTSettings()
     payment = PaymentSettings()
 

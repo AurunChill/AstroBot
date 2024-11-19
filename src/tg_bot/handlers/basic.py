@@ -77,7 +77,7 @@ async def handle_admin_cmd(message: Message, state: FSMContext):
     admin_ids = settings.admin.ADMIN_IDS
     if message.from_user.id in admin_ids:
         server_settings = settings.server
-        url = f'<a href="http://{server_settings.SERVER_HOST}:{server_settings.SERVER_PORT}/admin">{_("admin_panel_msg")}</a>'
+        url = f'<a href="http://{server_settings.SERVER_ACTUAL_HOST}:{server_settings.SERVER_PORT}/admin">{_("admin_panel_msg")}</a>'
         await message.answer(text=url)
     else:
         await message.answer(text=_("not_admin_msg"), reply_markup=await get_menu_reply())

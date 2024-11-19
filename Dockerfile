@@ -10,4 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+RUN chmod a+x docker/*.sh
+
 ENV PYTHONPATH=/astro_bot/src

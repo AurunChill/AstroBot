@@ -34,7 +34,7 @@ async def start_server(host: str, port: int):
 async def run_app():
     await asyncio.gather(
         start_bot(),
-        start_server(settings.server.SERVER_HOST, settings.server.SERVER_PORT),
+        # start_server(settings.server.SERVER_HOST, settings.server.SERVER_PORT),
     )
 
 

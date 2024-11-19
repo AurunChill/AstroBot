@@ -16,10 +16,15 @@ services:
 
   app:
     build: .
+    depends_on:
+      - db
     container_name: astro_bot
     restart: always
-    env_file:
-      - .env
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    command: ["sh", "./docker/app.sh"]
     volumes:
       - ./logs:/astro_bot/logs
-      - ./alembic/versions:/astro_bot/alembic/versions
+      - ./src/tg_bot/alembic/versions:/astro_bot/src/tg_bot/alembic/versions
+    env_file:
+      - .env

@@ -42,7 +42,7 @@ async def shorten_horoscope(sub: Subscription, horoscope: str) -> str:
 async def format_horoscope(sub: Subscription, horoscope: str) -> str:
     extra = ""
     if sub is Subscription.FREELY:
-        extra = f'\n\n{_("freely_msg")}'
+        extra = f'\n\n{_("freely_unavailable_msg")}'
     return await shorten_horoscope(sub=sub, horoscope=horoscope) + extra
 
 

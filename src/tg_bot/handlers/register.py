@@ -135,7 +135,7 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
     except (ValueError, TypeError):
         birth_time_obj = time(0, 0)
 
-    birth_location_name = fsm_data.get("birth_location_name")
+    birth_location_name = fsm_data.get("birth_location")
 
     location_latitude = float(fsm_data.get("location_latitude"))
     location_longitude = float(fsm_data.get("location_longitude"))
@@ -174,7 +174,7 @@ async def register(message: Message, state: FSMContext):
 
     if not user:
         await message.answer(
-            text=_("user_not_found"), reply_markup=await get_decline_reply()
+            text=_("user_not_found_msg"), reply_markup=await get_decline_reply()
         )
         await state.clear()
         return
