@@ -9,6 +9,7 @@ class PredictionAdmin(ModelView, model=Prediction):
         "profile_id",
         "prediction_type",
         "recognition_str",
+        "expiration_time"
     ]
 
     column_searchable_list = [
@@ -16,6 +17,7 @@ class PredictionAdmin(ModelView, model=Prediction):
         "profile_id",
         "prediction_type",
         "recognition_str",
+        "expiration_time",
     ]
 
     column_filters = [
@@ -23,6 +25,7 @@ class PredictionAdmin(ModelView, model=Prediction):
         "profile_id",
         "prediction_type",
         "recognition_str",
+        "expiration_time",
     ]
 
     form_excluded_columns = [
@@ -34,6 +37,7 @@ class PredictionAdmin(ModelView, model=Prediction):
         "profile_id",
         "prediction_type",
         "recognition_str",
+        "expiration_time",
     ]
 
     column_labels = {
@@ -41,6 +45,7 @@ class PredictionAdmin(ModelView, model=Prediction):
         "profile_id": "ID профиля",
         "prediction_type": "Тип предсказания",
         "recognition_str": "Строка распознавания",
+        "expiration_time": "Время истечения",
     }
 
     form_widget_args = {

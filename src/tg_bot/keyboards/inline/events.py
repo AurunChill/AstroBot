@@ -38,11 +38,11 @@ async def get_duration_freely_inline(theme: str) -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=_("event_duration_45_btn"),
-                    callback_data=EventsCallback.DURATION_45 + ' ' + theme,
+                    callback_data=EventsCallback.DURATION_45 + " " + theme,
                 ),
                 InlineKeyboardButton(
                     text=_("event_duration_90_btn"),
-                    callback_data=EventsCallback.DURATION_90 + ' ' + theme,
+                    callback_data=EventsCallback.DURATION_90 + " " + theme,
                 ),
             ],
         ]
@@ -55,20 +55,22 @@ async def get_duration_paid_inline(theme: str) -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=_("event_duration_45_btn"),
-                    callback_data=EventsCallback.DURATION_45 + ' ' + theme,                ),
+                    callback_data=EventsCallback.DURATION_45 + " " + theme,
+                ),
                 InlineKeyboardButton(
                     text=_("event_duration_90_btn"),
-                    callback_data=EventsCallback.DURATION_90 + ' ' + theme,                ),
+                    callback_data=EventsCallback.DURATION_90 + " " + theme,
+                ),
             ],
             [
                 InlineKeyboardButton(
                     text=_("event_duration_180_btn"),
-                    callback_data=EventsCallback.DURATION_180 + ' ' + theme,
+                    callback_data=EventsCallback.DURATION_180 + " " + theme,
                 ),
                 InlineKeyboardButton(
                     text=_("event_duration_365_btn"),
-                    callback_data=EventsCallback.DURATION_365 + ' ' + theme,
+                    callback_data=EventsCallback.DURATION_365 + " " + theme,
                 ),
-            ]
+            ],
         ]
     )

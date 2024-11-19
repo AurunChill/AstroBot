@@ -37,7 +37,7 @@ msgid "start_msg"
 msgstr "<b>Welcome to the world of astrology!</b> ✨\n\nThis bot will help you calculate your horoscope and discover important dates and events that will happen in your life. Just provide your date, time, and place of birth, and we will perform an astrological calculation for you!\n\n<b>May the stars guide you!</b> 🌟"
 
 msgid "help_msg"
-msgstr "<b>📋 Here is a list of available commands:</b>\n\n<i>/help</i> - see available commands\n<i>/lang</i> - change language\n<i>/profile</i> - edit profile data\n<i>/horoscope</i> - calculate daily or monthly energy\n<i>/events</i> - calculate events and their dates\n<i>/sub</i> - change account status\n\n<i>/menu</i> - return to the main menu"
+msgstr "<b>📋 Here is a list of available commands:</b>\n\n<i>/help</i> - see available commands\n<i>/lang</i> - change language\n<i>/profile</i> - edit profile data\n<i>/horoscope</i> - calculate daily or monthly energy\n<i>/events</i> - calculate events and their dates\n<i>/sub</i> - change account status\n\n<i>/menu</i> - return to the main menu\n<i>/admin</i> - get admin-panel link"
 
 msgid "lang_msg"
 msgstr "<b>Select a language 🌐</b>\n\nChoose the language to communicate with the bot for further interactions."
@@ -47,6 +47,15 @@ msgstr "Россия 🇷🇺"
 
 msgid "english_btn"
 msgstr "English 🇬🇧"
+
+msgid "lang_changed_msg"
+msgstr "<b>Language has been changed to English! 🇬🇧</b>"
+
+msgid "not_admin_msg"
+msgstr "<b>You're not administrator!</b>"
+
+msgid "admin_panel_msg"
+msgstr "Admin panel 💻"
 
 # Profile messages and Keyboard's buttons
 msgid "profile_title_msg"
@@ -71,7 +80,7 @@ msgid "max_profiles_msg"
 msgstr "<b>❌ You have already created the maximum number of profiles (3) for one account!</b>\n\nYou can delete one of the existing profiles before creating a new one."
 
 msgid "send_prof_name_msg"
-msgstr "✨ <b>Send the profile name</b>\n\nFor example: <i>huba-buba</i>"
+msgstr "✨ <b>Send the profile name</b>\n\nFor example: <i>James Johnson</i>"
 
 msgid "prof_name_err_msg"
 msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the profile name again!"
@@ -89,10 +98,10 @@ msgid "birth_time_err_msg"
 msgstr "⚠️ <b>Error!</b>\n\nPlease enter your time of birth again, ensuring that it is correct."
 
 msgid "send_birth_location_msg"
-msgstr "📍 <b>Send the geolocation of the place of your birth</b>"
+msgstr "📍 <b>Send the name of the place of your birth. Example: USA, Chicago</b>"
 
 msgid "birth_location_err_msg"
-msgstr "⚠️ <b>Error!</b>\n\nPlease send the geolocation of the place of your birth so that we can correctly calculate your horoscope."
+msgstr "⚠️ <b>Error!</b>\n\nPlease send the name of the place of your birth!."
 
 msgid "send_current_location_msg"
 msgstr "🌍 <b>Please send the geolocation of your current location</b>"
@@ -244,8 +253,11 @@ msgstr "📆 365 days"
 msgid "subscribed_forever_msg"
 msgstr "<b>You are already subscribed forever!</b> 🎉"
 
+msgid "subscirbed_montly_msg"
+msgstr "<b>You are already subscribed for this month!🎉</b>"
+
 msgid "subscription_expiration_msg"
-msgstr "<b>Subscription paid for one month!</b> ⏳\n\nExpiration date: <i>{}</i>. Don't forget to renew to avoid losing access!"
+msgstr "<b>Subscription paid for one month!</b> ⏳\n\nExpiration date: <i>{}</i>\n\nDon't forget to renew to avoid losing access!"
 
 msgid "no_subscription_msg"
 msgstr "<b>You are not subscribed! ❌</b>\n\nSubscribing grants access to <b>full</b> calculations (horoscope, events) and allows you to receive forecasts for longer periods in the \"Events\" section.\n\nChoose an option to subscribe and enjoy all the benefits! 💳"
@@ -263,7 +275,11 @@ msgid "sub_forever_msg"
 msgstr "♾️ Forever subscription"
 
 msgid "sub_description_msg"
-msgstr "Subscribing grants access to <b>full calculations</b> (horoscope, events)🔮\n\nForecasts for a <b>longer period</b> are also available in the \"📅 Events\" category.\nDon't miss your chance! 🎉"
+msgstr "The subscription opens access to the full calculation and adds the "180 days" and "365 days" selection options in the \"📅 Events\" category"
 
 msgid "sub_success_msg"
 msgstr "<b>Subscription successfully processed! 🎉</b>\n\nNow you have access to all full calculations. Enjoy your use! 💖"
+
+# Background handlers
+msgid "subscription_expired_msg"
+msgstr "<b>Subscription expired! ⏳</b>\n\nYou can renew your subscription <i>/sub</i>"

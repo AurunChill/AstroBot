@@ -40,11 +40,10 @@ async def shorten_horoscope(sub: Subscription, horoscope: str) -> str:
 
 
 async def format_horoscope(sub: Subscription, horoscope: str) -> str:
-    return (
-        await shorten_horoscope(sub=sub, horoscope=horoscope)
-        + "\n\n"
-        + _("freely_unavailable_msg")
-    )
+    extra = ""
+    if sub is Subscription.FREELY:
+        extra = f'\n\n{_("freely_msg")}'
+    return await shorten_horoscope(sub=sub, horoscope=horoscope) + extra
 
 
 async def make_horoscope(user_id: int, date: str) -> str:
@@ -60,6 +59,7 @@ async def make_horoscope(user_id: int, date: str) -> str:
     bot_logger.info(user.name)
     user_profile = await find_current_profile_by_user_id(user_id=user_id)
 
+    recognition_str = f'{recognition_str} {user.locale} {user_profile.id}'
     db_horoscope = await find_prediction_by_recognition_and_type(
         recognition_str=recognition_str, prediction_type=PredictionType.HOROSCOPE
     )
@@ -165,7 +165,9 @@ async def handle_subscribe_callback(callback: CallbackQuery, state: FSMContext):
     user = await find_user_by_id(user_id=user_id)
     user.is_mail_subscribed = True
     await update_user(user_id=user_id, updated_user=user)
-    await callback.message.edit_text(text=_("mail_subscribed_msg"), reply_markup=await get_unsubscribe_inline())
+    await callback.message.edit_text(
+        text=_("mail_subscribed_msg"), reply_markup=await get_unsubscribe_inline()
+    )
     await callback.answer()
 
 
@@ -176,5 +178,7 @@ async def handle_unsubscribe_callback(callback: CallbackQuery, state: FSMContext
     user = await find_user_by_id(user_id=user_id)
     user.is_mail_subscribed = False
     await update_user(user_id=user_id, updated_user=user)
-    await callback.message.edit_text(text=_("mail_unsubscribe_msg"), reply_markup=await get_subscribe_inline())
+    await callback.message.edit_text(
+        text=_("mail_unsubscribe_msg"), reply_markup=await get_subscribe_inline()
+    )
     await callback.answer()

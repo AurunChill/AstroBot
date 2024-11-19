@@ -10,11 +10,11 @@ async def get_language_inline() -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=_("russian_btn"),
-                    callback_data=BasicCallback.LANGUAGE + ' ' + 'ru',
+                    callback_data=BasicCallback.LANGUAGE + " " + "ru",
                 ),
                 InlineKeyboardButton(
                     text=_("english_btn"),
-                    callback_data=BasicCallback.LANGUAGE + ' ' + 'en',
+                    callback_data=BasicCallback.LANGUAGE + " " + "en",
                 ),
             ],
         ]

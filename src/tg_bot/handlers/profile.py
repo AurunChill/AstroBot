@@ -35,12 +35,11 @@ from keyboards.reply.common import get_decline_reply
 profile_router = Router(name="profile")
 
 
-async def format_profile(profile: Profile, locale: str) -> str:
+async def format_profile(profile: Profile) -> str:
     return (
         f'{_("profile_title_msg")} {profile.title}\n\n'
         f'{_("profile_birth_msg")} {profile.birth_date.strftime("%d.%m.%Y")} {profile.birth_time.strftime("%H:%M")}\n\n'
         f'{_("profile_birth_location_msg")} {profile.birth_location_name}\n\n'
-        f'{_("profile_location_msg")} {profile.location_name}'
     )
 
 
@@ -48,9 +47,8 @@ async def format_profile(profile: Profile, locale: str) -> str:
 async def handle_profile_cmd(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} using command /profile")
     user_id = message.from_user.id
-    user = await find_user_by_id(user_id=user_id)
     profile = await find_current_profile_by_user_id(user_id=user_id)
-    profile_text = await format_profile(profile=profile, locale=user.locale)
+    profile_text = await format_profile(profile=profile)
     await message.answer(text=profile_text, reply_markup=await get_profile_inline())
 
 
@@ -200,57 +198,68 @@ async def handle_profile_change_birth_date(message: Message, state: FSMContext):
         user_id = message.from_user.id
         current_profile = await find_current_profile_by_user_id(user_id=user_id)
         try:
-            current_profile.birth_date = datetime.strptime(
-                message.text, "%d.%m.%Y"
-            ).date()
-            await update_profile(
-                profile_id=current_profile.id, updated_profile=current_profile
-            )
-            await message.answer(
-                text=_("birth_date_changed_msg"), reply_markup=await get_menu_reply()
-            )
+            birth_date = datetime.strptime(message.text, "%d.%m.%Y").date()
+            current_date = datetime.now().date()
+            if birth_date.year >= 1900 and birth_date < current_date:
+                current_profile.birth_date = birth_date
+                await update_profile(
+                    profile_id=current_profile.id, updated_profile=current_profile
+                )
+                await message.answer(
+                    text=_("birth_date_changed_msg"), reply_markup=await get_menu_reply()
+                )
+                await state.clear()
+            else:
+                await message.answer(text=_("birth_date_err_msg"))
         except ValueError:
             await message.answer(text=_("birth_date_err_msg"))
-        finally:
             await state.clear()
     else:
         await message.answer(text=_("birth_date_err_msg"))
+        await state.clear()
 
 
 @profile_router.message(ChangeDataStates.birth_time)
 async def handle_profile_change_birth_time(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} sending birth time: {message.text}")
+
+    # Updated regex to match format HH:MM exactly
     time_pattern = r"^\d{2}:\d{2}$"
     if message.text and re.match(time_pattern, message.text):
         user_id = message.from_user.id
         current_profile = await find_current_profile_by_user_id(user_id=user_id)
         try:
-            current_profile.birth_time = datetime.strptime(message.text, "%H:%M").time()
-            await update_profile(
-                profile_id=current_profile.id, updated_profile=current_profile
-            )
-            await message.answer(
-                text=_("birth_time_changed_msg"), reply_markup=await get_menu_reply()
-            )
+            birth_time = datetime.strptime(message.text, "%H:%M").time()
+            if birth_time.hour < 24 and birth_time.minute < 60:
+                current_profile.birth_time = birth_time
+                await update_profile(
+                    profile_id=current_profile.id, updated_profile=current_profile
+                )
+                await message.answer(
+                    text=_("birth_time_changed_msg"), reply_markup=await get_menu_reply()
+                )
+                await state.clear()
+            else:
+                await message.answer(text=_("birth_time_err_msg"))
+                await state.clear()
         except ValueError:
             await message.answer(text=_("birth_time_err_msg"))
-        finally:
             await state.clear()
     else:
         await message.answer(text=_("birth_time_err_msg"))
+        await state.clear()
 
 
 @profile_router.message(ChangeDataStates.birth_location)
 async def handle_profile_change_birth_location(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} sending birth location.")
-    if message.location:
+    if message.text:
         user_id = message.from_user.id
         current_profile = await find_current_profile_by_user_id(user_id=user_id)
-        current_profile.birth_longitude = float(message.location.longitude)
-        current_profile.birth_latitude = float(message.location.latitude)
+        current_profile.birth_location_name = message.text
         await update_profile(
-            profile_id=current_profile.id, updated_profile=current_profile,
-            update_birth_location=True
+            profile_id=current_profile.id,
+            updated_profile=current_profile,
         )
         await message.answer(
             text=_("birth_location_changed_msg"), reply_markup=await get_menu_reply()
@@ -269,8 +278,8 @@ async def handle_profile_change_current_location(message: Message, state: FSMCon
         current_profile.location_longitude = float(message.location.longitude)
         current_profile.location_latitude = float(message.location.latitude)
         await update_profile(
-            profile_id=current_profile.id, updated_profile=current_profile,
-            update_location=True
+            profile_id=current_profile.id,
+            updated_profile=current_profile,
         )
         await message.answer(
             text=_("current_location_changed_msg"), reply_markup=await get_menu_reply()

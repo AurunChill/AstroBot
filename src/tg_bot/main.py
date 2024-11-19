@@ -8,21 +8,20 @@ from bot_ import bot, dispatcher
 from server.main import app
 from handlers import all_routers
 from handlers.background.mailing import send_mailing
+from handlers.background.prediction import check_predictions
+from handlers.background.subscription import check_subscription
 from middleware import register_middlewares
 from config import settings
 from logger import bot_logger
 
 
 async def start_bot():
-    bot_logger.info('Bot started')
+    bot_logger.info("Bot started")
     register_middlewares(dispatcher)
     dispatcher.include_routers(*all_routers)
     await bot.delete_webhook(drop_pending_updates=True)
     await dispatcher.start_polling(
-        bot,
-        allowed_updates=[
-            'message', 'callback_query', 'pre_checkout_query'
-        ]
+        bot, allowed_updates=["message", "callback_query", "pre_checkout_query"]
     )
 
 
@@ -35,18 +34,26 @@ async def start_server(host: str, port: int):
 async def run_app():
     await asyncio.gather(
         start_bot(),
-        start_server(settings.server.SERVER_HOST, settings.server.SERVER_PORT)
+        start_server(settings.server.SERVER_HOST, settings.server.SERVER_PORT),
     )
 
 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler()
-    moscow_timezone = pytz.timezone('Europe/Moscow')
-    
-    scheduler.add_job(send_mailing, trigger=CronTrigger(hour=7, minute=0, timezone=moscow_timezone))
-    
+    moscow_timezone = pytz.timezone("Europe/Moscow")
+    scheduler.add_job(run_app)
+    scheduler.add_job(
+        send_mailing, trigger=CronTrigger(hour=7, minute=0, timezone=moscow_timezone)
+    )
+    scheduler.add_job(
+        check_predictions,
+        trigger=CronTrigger(hour=3, minute=0),
+        timezone=moscow_timezone,
+    )
+    scheduler.add_job(
+        check_subscription,
+        trigger=CronTrigger(hour=2, minute=0),
+        timezone=moscow_timezone,
+    )
     scheduler.start()
-    try:
-        asyncio.run(run_app())
-    except (KeyboardInterrupt, SystemExit):
-        pass
+    asyncio.get_event_loop().run_forever()

@@ -41,18 +41,6 @@ class Profile(Base):
         Time, default=time(0, 0)
     )
 
-    birth_timezone: Mapped[str] = mapped_column(
-        String, nullable=False
-    )
-
-    birth_latitude: Mapped[float] = mapped_column(
-        Float, nullable=False
-    )
-
-    birth_longitude: Mapped[float] = mapped_column(
-        Float, nullable=False
-    )
-
     birth_location_name: Mapped[str] = mapped_column(
         String, nullable=True
     )
@@ -67,10 +55,6 @@ class Profile(Base):
 
     location_timezone: Mapped[str] = mapped_column(
         String, nullable=False
-    )
-
-    location_name: Mapped[str] = mapped_column(
-        String, nullable=True
     )
 
     def __doc__(self):

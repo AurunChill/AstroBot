@@ -24,6 +24,11 @@ requests = "^2.32.3"
 timezonefinder = "^6.5.4"
 asyncpg = "^0.30.0"
 geopy = "^2.4.1"
+yandex-geocoder = "^3.0.1"
+sqladmin = "^0.20.1"
+uvicorn = "^0.32.0"
+fastapi = "^0.115.5"
+itsdangerous = "^2.2.0"
 
 
 [build-system]

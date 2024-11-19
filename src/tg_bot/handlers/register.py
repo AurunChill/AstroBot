@@ -10,7 +10,6 @@ import pytz
 from datetime import datetime, time
 
 from logger import bot_logger
-from utils import get_location
 from keyboards.reply.common import get_menu_reply, get_decline_reply
 from keyboards.reply.register import get_location_reply
 from states.register import RegistrationStates
@@ -29,7 +28,9 @@ async def handle_register_cmd(message: Message, state: FSMContext):
     user_id = message.from_user.id
     user_profiles = await find_profiles_by_user_id(user_id=user_id)
     if user_profiles and len(user_profiles) >= 3:
-        await message.answer(text=_("max_profiles_msg"), reply_markup=await get_menu_reply())
+        await message.answer(
+            text=_("max_profiles_msg"), reply_markup=await get_menu_reply()
+        )
     else:
         await message.answer(
             text=_("send_prof_name_msg"), reply_markup=await get_decline_reply()
@@ -51,11 +52,19 @@ async def handle_title_state(message: Message, state: FSMContext):
 @register_router.message(RegistrationStates.birth_date)
 async def handle_birth_date_state(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} sending birth date: {message.text}")
-    date_pattern = r"^\d{2}.\d{2}.\d{4}$"
+    date_pattern = r"^\d{2}\.\d{2}\.\d{4}$"
     if message.text and re.match(date_pattern, message.text):
-        await state.update_data(birth_date=message.text)
-        await message.answer(text=_("send_birth_time_msg"))
-        await state.set_state(RegistrationStates.birth_time.state)
+        try:
+            birth_date = datetime.strptime(message.text, "%d.%m.%Y").date()
+            current_date = datetime.now().date()
+            if birth_date.year >= 1900 and birth_date < current_date:
+                await state.update_data(birth_date=message.text)
+                await message.answer(text=_("send_birth_time_msg"))
+                await state.set_state(RegistrationStates.birth_time.state)
+            else:
+                await message.answer(text=_("birth_date_err_msg"))
+        except ValueError:
+            await message.answer(text=_("birth_date_err_msg"))
     else:
         await message.answer(text=_("birth_date_err_msg"))
 
@@ -65,9 +74,16 @@ async def handle_birth_time_state(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} sending birth time: {message.text}")
     time_pattern = r"^\d{2}:\d{2}$"
     if message.text and re.match(time_pattern, message.text):
-        await state.update_data(birth_time=message.text)
-        await message.answer(text=_("send_birth_location_msg"))
-        await state.set_state(RegistrationStates.birth_location.state)
+        try:
+            birth_time = datetime.strptime(message.text, "%H:%M").time()
+            if birth_time.hour < 24 and birth_time.minute < 60:
+                await state.update_data(birth_time=message.text)
+                await message.answer(text=_("send_birth_location_msg"))
+                await state.set_state(RegistrationStates.birth_location.state)
+            else:
+                await message.answer(text=_("birth_time_err_msg"))
+        except ValueError:
+            await message.answer(text=_("birth_time_err_msg"))
     else:
         await message.answer(text=_("birth_time_err_msg"))
 
@@ -77,14 +93,11 @@ async def handle_birth_location_state(message: Message, state: FSMContext):
     bot_logger.info(
         f"User {message.from_user.id} sending birth location: {message.text}"
     )
-    if message.location:
-        longitude, latitude = (
-            str(message.location.longitude),
-            str(message.location.latitude),
+    if message.text:
+        await state.update_data(birth_location=message.text)
+        await message.answer(
+            text=_("send_current_location_msg"), reply_markup=await get_location_reply()
         )
-        await state.update_data(birth_longitude=longitude)
-        await state.update_data(birth_latitude=latitude)
-        await message.answer(text=_("send_current_location_msg"), reply_markup= await get_location_reply())
         await state.set_state(RegistrationStates.current_location.state)
     else:
         await message.answer(text=_("birth_location_err_msg"))
@@ -111,7 +124,7 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
     user_id = user.id
     user = await find_user_by_id(user_id=user_id)
     title = fsm_data.get("title")
-    
+
     try:
         birth_date = datetime.strptime(fsm_data.get("birth_date"), "%d.%m.%Y").date()
     except (ValueError, TypeError):
@@ -122,33 +135,23 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
     except (ValueError, TypeError):
         birth_time_obj = time(0, 0)
 
-    birth_latitude = float(fsm_data.get("birth_latitude"))
-    birth_longitude = float(fsm_data.get("birth_longitude"))
-
-    tf = TimezoneFinder()
-    birth_timezone_str = tf.timezone_at(lat=birth_latitude, lng=birth_longitude) or "UTC"
-    birth_timezone = pytz.timezone(birth_timezone_str)
-    
-    # Now get the UTC offset
-    birth_offset = birth_timezone.utcoffset(datetime.now()).total_seconds() // 3600
-    birth_timezone_offset = f"{'+' if birth_offset >= 0 else '-'}{abs(int(birth_offset))}"
-
-    birth_location_name = await get_location(
-        locale=user.locale, latitude=birth_latitude, longitude=birth_longitude
-    )
+    birth_location_name = fsm_data.get("birth_location_name")
 
     location_latitude = float(fsm_data.get("location_latitude"))
     location_longitude = float(fsm_data.get("location_longitude"))
 
-    location_timezone_str = tf.timezone_at(lat=location_latitude, lng=location_longitude) or "UTC"
+    tf = TimezoneFinder()
+    location_timezone_str = (
+        tf.timezone_at(lat=location_latitude, lng=location_longitude) or "UTC"
+    )
     location_timezone = pytz.timezone(location_timezone_str)
-    
-    # Get the UTC offset
-    location_offset = location_timezone.utcoffset(datetime.now()).total_seconds() // 3600
-    location_timezone_offset = f"{'+' if location_offset >= 0 else '-'}{abs(int(location_offset))}"
 
-    location_name = await get_location(
-        locale=user.locale, latitude=location_latitude, longitude=location_longitude
+    # Get the UTC offset
+    location_offset = (
+        location_timezone.utcoffset(datetime.now()).total_seconds() // 3600
+    )
+    location_timezone_offset = (
+        f"{'+' if location_offset >= 0 else '-'}{abs(int(location_offset))}"
     )
 
     profile = Profile(
@@ -156,14 +159,10 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
         title=title,
         birth_date=birth_date,
         birth_time=birth_time_obj,
-        birth_latitude=birth_latitude,
-        birth_longitude=birth_longitude,
-        birth_timezone=birth_timezone_offset,
         birth_location_name=birth_location_name,
         location_latitude=location_latitude,
         location_longitude=location_longitude,
         location_timezone=location_timezone_offset,
-        location_name=location_name
     )
 
     return await create_profile(profile=profile)
@@ -172,27 +171,32 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
 async def register(message: Message, state: FSMContext):
     user_id = message.from_user.id
     user = await find_user_by_id(user_id=user_id)
-    
+
     if not user:
-        await message.answer(text=_("user_not_found"), reply_markup=await get_decline_reply())
+        await message.answer(
+            text=_("user_not_found"), reply_markup=await get_decline_reply()
+        )
         await state.clear()
         return
 
     new_profile = await process_data(fsm_data=await state.get_data(), user=user)
-    
+
     if not user.current_profile_id:
-        updated_user = await set_current_profile(user_id=user_id, profile_id=new_profile.id)
+        updated_user = await set_current_profile(
+            user_id=user_id, profile_id=new_profile.id
+        )
         if updated_user:
             await message.answer(
                 text=_("new_profile_msg"), reply_markup=await get_menu_reply()
             )
         else:
             await message.answer(
-                text=_("error_setting_current_profile_msg"), reply_markup=await get_decline_reply()
+                text=_("error_setting_current_profile_msg"),
+                reply_markup=await get_decline_reply(),
             )
     else:
         await message.answer(
             text=_("add_profile_msg"), reply_markup=await get_menu_reply()
         )
-    
+
     await state.clear()

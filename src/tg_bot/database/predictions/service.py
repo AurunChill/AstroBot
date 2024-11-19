@@ -32,6 +32,16 @@ async def delete_prediction(prediction_id: int) -> Optional[Prediction]:
         return prediction
 
 
+async def find_all_predictions() -> list[Prediction]:
+    """Find all predictions."""
+    async with async_session_maker() as session:
+        stmt = select(Prediction)
+        result = await session.execute(stmt)
+        predictions = result.scalars().all()
+        logger.info(f"All predictions fetched: {predictions}")
+        return predictions
+    
+
 async def find_prediction_by_id(prediction_id: int) -> Optional[Prediction]:
     """Find a prediction by its ID."""
     async with async_session_maker() as session:

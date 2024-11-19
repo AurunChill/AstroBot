@@ -12,7 +12,8 @@ async def get_subscription_inline() -> InlineKeyboardMarkup:
                     text=_("sub_month_btn"), callback_data=SubscriptionCallback.MONTHLY
                 ),
                 InlineKeyboardButton(
-                    text=_("sub_forever_btn"), callback_data=SubscriptionCallback.FOREVER
+                    text=_("sub_forever_btn"),
+                    callback_data=SubscriptionCallback.FOREVER,
                 ),
             ]
         ]

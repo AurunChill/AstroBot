@@ -1,11 +1,9 @@
 from sqlalchemy import select
 from typing import List, Optional
 
-from utils import get_location
 from database.profile.models import Profile
 from database.user.models import User
 from logger import db_query_logger as logger
-from database.user.service import find_user_by_id
 from database.db import async_session_maker
 
 
@@ -54,7 +52,7 @@ async def find_current_profile_by_user_id(user_id: int) -> Optional[Profile]:
 
 
 async def update_profile(
-    profile_id: int, updated_profile: Profile, update_birth_location: bool = False, update_location: bool = False
+    profile_id: int, updated_profile: Profile
 ) -> Optional[Profile]:
     """Update a profile's data dynamically without explicitly naming columns."""
     async with async_session_maker() as session:
@@ -68,20 +66,6 @@ async def update_profile(
 
         for key, value in updated_profile.__dict__.items():
             if key != "_sa_instance_state" and hasattr(Profile, key) and key != "id":
-                if key == "location_name" and update_location:
-                    user = await find_user_by_id(user_id=updated_profile.user_id)
-                    value = await get_location(
-                        latitude=updated_profile.location_latitude,
-                        longitude=updated_profile.location_longitude,
-                        locale=user.locale,
-                    )
-                elif key == "birth_location_name" and update_birth_location:
-                    user = await find_user_by_id(user_id=updated_profile.user_id)
-                    value = await get_location(
-                        latitude=updated_profile.birth_latitude,
-                        longitude=updated_profile.birth_longitude,
-                        locale=user.locale,
-                    )
                 setattr(existing_profile, key, value)
 
         await session.commit()

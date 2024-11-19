@@ -1,6 +1,9 @@
-from enum import Enum
-from sqlalchemy import String, BigInteger, Enum as SAEnum
+from sqlalchemy import String, BigInteger, Enum as SAEnum, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
+
+from enum import Enum
+from datetime import datetime, timedelta, timezone
+
 from database.base import Base
 
 
@@ -32,6 +35,12 @@ class Prediction(Base):
     recognition_str: Mapped[str] = mapped_column(
         String,
         nullable=True, 
+    )
+
+    expiration_time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True, 
+        default=lambda: datetime.now(timezone.utc) + timedelta(days=90)
     )
 
     def __doc__(self):
