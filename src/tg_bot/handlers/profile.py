@@ -9,6 +9,7 @@ from datetime import datetime
 
 from logger import bot_logger
 from handlers.register import handle_register_cmd
+from handlers.subscription import handle_subscription_cmd
 from filters.access import ProfileRegistered
 from states.profile import ChangeDataStates
 from keyboards.reply.profile import get_location_reply
@@ -96,6 +97,7 @@ async def handle_delete_profile_callback(callback: CallbackQuery, state: FSMCont
 @profile_router.callback_query(F.data.startswith(ProfileCallback.CHANGE_STATUS))
 async def handle_change_status_callback(callback: CallbackQuery, state: FSMContext):
     bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
+    await handle_subscription_cmd(message=callback.message, state=state)
     await callback.answer()
 
 

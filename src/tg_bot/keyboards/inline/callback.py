@@ -34,3 +34,8 @@ class EventsCallback:
     DURATION_90 = 'event_duration_90'
     DURATION_180 = 'event_duration_180'
     DURATION_365 = 'event_duration_365'
+
+
+class SubscriptionCallback:
+    FOREVER = 'sub_forever'
+    MONTHLY = 'sub_monthly'

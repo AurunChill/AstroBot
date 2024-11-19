@@ -84,6 +84,10 @@ class LocalesSettings:
     LOCALE_PATH = TG_BOT_FOLDER / 'locales'
 
 
+class PaymentSettings(EnvSettings):
+    PROVIDER_TOKEN: str
+
+
 class Settings:
     admin = AdminSettings()
     bot = BotSettings()
@@ -93,6 +97,7 @@ class Settings:
     server = ServerSettings()
     location = LocationSettings()
     gpt = GPTSettings()
+    payment = PaymentSettings()
 
 
 settings = Settings()

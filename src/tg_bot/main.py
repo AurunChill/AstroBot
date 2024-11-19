@@ -21,7 +21,7 @@ async def start_bot():
     await dispatcher.start_polling(
         bot,
         allowed_updates=[
-            'message', 'callback_query'
+            'message', 'callback_query', 'pre_checkout_query'
         ]
     )
 
