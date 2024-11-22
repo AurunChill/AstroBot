@@ -5,6 +5,7 @@ from database.user.models import Subscription, User
 
 class UserAdmin(ModelView, model=User):
     column_list = [
+        User.id,
         User.user_id,
         User.name,
         User.locale,
@@ -14,6 +15,8 @@ class UserAdmin(ModelView, model=User):
     ]
 
     form_columns = [
+        User.id,
+        User.user_id,
         User.name,
         User.locale,
         User.subscription,
@@ -30,14 +33,8 @@ class UserAdmin(ModelView, model=User):
         User.is_mail_subscribed,
     ]
 
-    column_editable_list = [
-        User.subscription,
-        User.subscription_expiration_date,
-        User.is_mail_subscribed,
-    ]
-
     column_labels = {
-        User.user_id: "ID",
+        User.user_id: "User ID",
         User.name: "Название",
         User.locale: "Язык",
         User.subscription: "Подписка",
