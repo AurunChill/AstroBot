@@ -12,9 +12,9 @@ class ProfileAdmin(ModelView, model=Profile):
         Profile.birth_date, 
         Profile.birth_time, 
         Profile.birth_location_name, 
-        Profile.location_latitude, 
-        Profile.location_longitude, 
-        Profile.location_timezone, 
+        # Profile.location_latitude, 
+        # Profile.location_longitude, 
+        # Profile.location_timezone, 
     )
 
     column_searchable_list = (
@@ -24,9 +24,9 @@ class ProfileAdmin(ModelView, model=Profile):
         Profile.birth_date, 
         Profile.birth_time, 
         Profile.birth_location_name, 
-        Profile.location_latitude, 
-        Profile.location_longitude, 
-        Profile.location_timezone, 
+        # Profile.location_latitude, 
+        # Profile.location_longitude, 
+        # Profile.location_timezone, 
     )
 
     column_sortable_list = (
@@ -37,9 +37,9 @@ class ProfileAdmin(ModelView, model=Profile):
         Profile.birth_date, 
         Profile.birth_time, 
         Profile.birth_location_name, 
-        Profile.location_latitude, 
-        Profile.location_longitude, 
-        Profile.location_timezone, 
+        # Profile.location_latitude, 
+        # Profile.location_longitude, 
+        # Profile.location_timezone, 
     )
 
     column_filters = (
@@ -50,9 +50,9 @@ class ProfileAdmin(ModelView, model=Profile):
         Profile.birth_date, 
         Profile.birth_time, 
         Profile.birth_location_name, 
-        Profile.location_latitude, 
-        Profile.location_longitude, 
-        Profile.location_timezone, 
+        # Profile.location_latitude, 
+        # Profile.location_longitude, 
+        # Profile.location_timezone, 
     )
 
     form_columns = (
@@ -61,9 +61,9 @@ class ProfileAdmin(ModelView, model=Profile):
         Profile.birth_date, 
         Profile.birth_time, 
         Profile.birth_location_name, 
-        Profile.location_latitude, 
-        Profile.location_longitude, 
-        Profile.location_timezone, 
+        # Profile.location_latitude, 
+        # Profile.location_longitude, 
+        # Profile.location_timezone, 
     )
 
     column_labels = {
@@ -74,7 +74,7 @@ class ProfileAdmin(ModelView, model=Profile):
         'birth_date': 'Дата рождения',
         'birth_time': 'Время рождения',
         'birth_location_name': 'Название места рождения',
-        'location_latitude': 'Текущая широта',
-        'location_longitude': 'Текущая долгота',
-        'location_timezone': 'Часовой пояс',
+        # 'location_latitude': 'Текущая широта',
+        # 'location_longitude': 'Текущая долгота',
+        # 'location_timezone': 'Часовой пояс',
     }

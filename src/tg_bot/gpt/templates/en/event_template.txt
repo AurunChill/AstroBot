@@ -9,7 +9,6 @@ User Data:
 Date of birth: {}
 Time of birth: {}
 Place of birth: {}
-Current location: {}
 
 
 

@@ -45,17 +45,17 @@ class Profile(Base):
         String, nullable=True
     )
 
-    location_latitude: Mapped[float] = mapped_column(
-        Float, nullable=False
-    )
+    # location_latitude: Mapped[float] = mapped_column(
+    #     Float, nullable=False
+    # )
 
-    location_longitude: Mapped[float] = mapped_column(
-        Float, nullable=False
-    )
+    # location_longitude: Mapped[float] = mapped_column(
+    #     Float, nullable=False
+    # )
 
-    location_timezone: Mapped[str] = mapped_column(
-        String, nullable=False
-    )
+    # location_timezone: Mapped[str] = mapped_column(
+    #     String, nullable=False
+    # )
 
     def __doc__(self):
         return f'{self.__class__.__name__}({self.id})'

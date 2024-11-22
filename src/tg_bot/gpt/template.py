@@ -45,5 +45,4 @@ async def inject_profile_into_template(
         profile.birth_date,
         profile.birth_time,
         profile.birth_location_name,
-        str(profile.location_latitude) + " " + str(profile.location_longitude),
     )

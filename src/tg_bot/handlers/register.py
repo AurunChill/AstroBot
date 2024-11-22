@@ -95,29 +95,29 @@ async def handle_birth_location_state(message: Message, state: FSMContext):
     )
     if message.text:
         await state.update_data(birth_location=message.text)
-        await message.answer(
-            text=_("send_current_location_msg"), reply_markup=await get_location_reply()
-        )
-        await state.set_state(RegistrationStates.current_location.state)
+        # await message.answer(
+        #     text=_("send_current_location_msg"), reply_markup=await get_location_reply()
+        # )
+        await register(message=message, state=state)
     else:
         await message.answer(text=_("birth_location_err_msg"))
 
 
-@register_router.message(RegistrationStates.current_location)
-async def handle_current_location_state(message: Message, state: FSMContext):
-    bot_logger.info(
-        f"User {message.from_user.id} sending current location: {message.text}"
-    )
-    if message.location:
-        longitude, latitude = (
-            str(message.location.longitude),
-            str(message.location.latitude),
-        )
-        await state.update_data(location_longitude=longitude)
-        await state.update_data(location_latitude=latitude)
-        await register(message=message, state=state)
-    else:
-        await message.answer(text=_("current_location_err_msg"))
+# @register_router.message(RegistrationStates.current_location)
+# async def handle_current_location_state(message: Message, state: FSMContext):
+#     bot_logger.info(
+#         f"User {message.from_user.id} sending current location: {message.text}"
+#     )
+#     if message.location:
+#         longitude, latitude = (
+#             str(message.location.longitude),
+#             str(message.location.latitude),
+#         )
+#         await state.update_data(location_longitude=longitude)
+#         await state.update_data(location_latitude=latitude)
+#         await register(message=message, state=state)
+#     else:
+#         await message.answer(text=_("current_location_err_msg"))
 
 
 async def process_data(fsm_data: dict, user: User) -> Profile:
@@ -137,32 +137,32 @@ async def process_data(fsm_data: dict, user: User) -> Profile:
 
     birth_location_name = fsm_data.get("birth_location")
 
-    location_latitude = float(fsm_data.get("location_latitude"))
-    location_longitude = float(fsm_data.get("location_longitude"))
+    # location_latitude = float(fsm_data.get("location_latitude"))
+    # location_longitude = float(fsm_data.get("location_longitude"))
 
-    tf = TimezoneFinder()
-    location_timezone_str = (
-        tf.timezone_at(lat=location_latitude, lng=location_longitude) or "UTC"
-    )
-    location_timezone = pytz.timezone(location_timezone_str)
+    # tf = TimezoneFinder()
+    # location_timezone_str = (
+    #     tf.timezone_at(lat=location_latitude, lng=location_longitude) or "UTC"
+    # )
+    # location_timezone = pytz.timezone(location_timezone_str)
 
     # Get the UTC offset
-    location_offset = (
-        location_timezone.utcoffset(datetime.now()).total_seconds() // 3600
-    )
-    location_timezone_offset = (
-        f"{'+' if location_offset >= 0 else '-'}{abs(int(location_offset))}"
-    )
+    # location_offset = (
+    #     location_timezone.utcoffset(datetime.now()).total_seconds() // 3600
+    # )
+    # location_timezone_offset = (
+    #     f"{'+' if location_offset >= 0 else '-'}{abs(int(location_offset))}"
+    # )
 
     profile = Profile(
         user_id=user_id,
         title=title,
         birth_date=birth_date,
         birth_time=birth_time_obj,
-        birth_location_name=birth_location_name,
-        location_latitude=location_latitude,
-        location_longitude=location_longitude,
-        location_timezone=location_timezone_offset,
+        birth_location_name=birth_location_name
+        # location_latitude=location_latitude,
+        # location_longitude=location_longitude,
+        # location_timezone=location_timezone_offset,
     )
 
     return await create_profile(profile=profile)

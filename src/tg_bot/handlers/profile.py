@@ -161,14 +161,14 @@ async def handle_change_birth_location_callback(
     await callback.answer()
 
 
-@profile_router.callback_query(F.data.startswith(ProfileCallback.CHANGE_LOCATION))
-async def handle_change_location_callback(callback: CallbackQuery, state: FSMContext):
-    bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
-    await state.set_state(ChangeDataStates.current_location.state)
-    await callback.message.answer(
-        text=_("send_current_location_msg"), reply_markup=await get_location_reply()
-    )
-    await callback.answer()
+# @profile_router.callback_query(F.data.startswith(ProfileCallback.CHANGE_LOCATION))
+# async def handle_change_location_callback(callback: CallbackQuery, state: FSMContext):
+#     bot_logger.info(f"User {callback.from_user.id} using callback {callback.data}")
+#     await state.set_state(ChangeDataStates.current_location.state)
+#     await callback.message.answer(
+#         text=_("send_current_location_msg"), reply_markup=await get_location_reply()
+#     )
+#     await callback.answer()
 
 
 @profile_router.message(ChangeDataStates.title)
@@ -269,21 +269,21 @@ async def handle_profile_change_birth_location(message: Message, state: FSMConte
         await message.answer(text=_("birth_location_err_msg"))
 
 
-@profile_router.message(ChangeDataStates.current_location)
-async def handle_profile_change_current_location(message: Message, state: FSMContext):
-    bot_logger.info(f"User {message.from_user.id} sending current location.")
-    if message.location:
-        user_id = message.from_user.id
-        current_profile = await find_current_profile_by_user_id(user_id=user_id)
-        current_profile.location_longitude = float(message.location.longitude)
-        current_profile.location_latitude = float(message.location.latitude)
-        await update_profile(
-            profile_id=current_profile.id,
-            updated_profile=current_profile,
-        )
-        await message.answer(
-            text=_("current_location_changed_msg"), reply_markup=await get_menu_reply()
-        )
-        await state.clear()
-    else:
-        await message.answer(text=_("current_location_err_msg"))
+# @profile_router.message(ChangeDataStates.current_location)
+# async def handle_profile_change_current_location(message: Message, state: FSMContext):
+#     bot_logger.info(f"User {message.from_user.id} sending current location.")
+#     if message.location:
+#         user_id = message.from_user.id
+#         current_profile = await find_current_profile_by_user_id(user_id=user_id)
+#         current_profile.location_longitude = float(message.location.longitude)
+#         current_profile.location_latitude = float(message.location.latitude)
+#         await update_profile(
+#             profile_id=current_profile.id,
+#             updated_profile=current_profile,
+#         )
+#         await message.answer(
+#             text=_("current_location_changed_msg"), reply_markup=await get_menu_reply()
+#         )
+#         await state.clear()
+#     else:
+#         await message.answer(text=_("current_location_err_msg"))
