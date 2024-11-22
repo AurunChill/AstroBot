@@ -9,6 +9,7 @@ from datetime import datetime
 
 from logger import bot_logger
 from states.horoscope import DateState
+from filters.access import ProfileRegistered
 from keyboards.reply.common import get_decline_reply
 from keyboards.inline.callback import HoroscopeCallback
 from keyboards.reply.common import get_menu_reply
@@ -89,7 +90,7 @@ async def make_horoscope(user_id: int, date: str) -> str:
         return await format_horoscope(sub=user.subscription, horoscope=response)
 
 
-@horoscope_router.message(Command("horoscope"))
+@horoscope_router.message(Command("horoscope"), ProfileRegistered())
 async def handle_horoscope_cmd(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} using command /horoscope")
     await message.answer(
@@ -149,7 +150,7 @@ async def handle_mail_callback(callback: CallbackQuery, state: FSMContext):
     user = await find_user_by_id(user_id=user_id)
     if user.is_mail_subscribed:
         await callback.message.answer(
-            text=_("mail_subscribed_msg"), reply_markup=await get_unsubscribe_inline()
+            text=_("mail_subscribed_msg").format(str(await callback.bot.get_my_name()).split("'")[1]), reply_markup=await get_unsubscribe_inline()
         )
     else:
         await callback.message.answer(
@@ -166,7 +167,7 @@ async def handle_subscribe_callback(callback: CallbackQuery, state: FSMContext):
     user.is_mail_subscribed = True
     await update_user(user_id=user_id, updated_user=user)
     await callback.message.edit_text(
-        text=_("mail_subscribed_msg"), reply_markup=await get_unsubscribe_inline()
+        text=_("mail_subscribed_msg").format(str(await callback.bot.get_my_name()).split("'"))[1], reply_markup=await get_unsubscribe_inline()
     )
     await callback.answer()
 

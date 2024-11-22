@@ -7,6 +7,7 @@ from aiogram.utils.i18n import gettext as _
 from datetime import datetime
 
 from logger import bot_logger
+from filters.access import ProfileRegistered
 from keyboards.inline.callback import EventsCallback
 from keyboards.reply.common import get_menu_reply
 from keyboards.inline.events import (
@@ -78,7 +79,7 @@ async def make_event(user_id: int, theme: str, duration: str) -> str:
         return await format_event(sub=user.subscription, event=response)
 
 
-@event_router.message(Command("events"))
+@event_router.message(Command("events"), ProfileRegistered())
 async def handle_event_cmd(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} using command /events")
     await message.answer(

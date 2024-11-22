@@ -1,11 +1,11 @@
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
 
 from logger import bot_logger
-from config import settings
+from config import settings, IMAGE_FOLDER
 from keyboards.reply.common import get_menu_reply
 from keyboards.inline.basic import get_language_inline
 from keyboards.inline.callback import BasicCallback
@@ -27,7 +27,11 @@ async def handle_start_cmd(message: Message, state: FSMContext):
     bot_logger.info(f"User {message.from_user.id} using command /start")
     user = message.from_user
     await create_user_if_not_exists(user_id=user.id, user_name=user.full_name)
-    await message.answer(text=_("start_msg"), reply_markup=await get_menu_reply())
+    await message.answer_photo(
+        photo=FSInputFile(IMAGE_FOLDER / 'start_image.png'),
+        caption=_("start_msg"),
+        reply_markup=await get_menu_reply(),
+    )
     await handle_lang_cmd(message=message, state=state)
 
 

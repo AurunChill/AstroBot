@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 PROJECT_PATH = Path(__file__).parent.parent.parent
 TG_BOT_FOLDER = PROJECT_PATH / "src" / "tg_bot"
+ASSET_FOLDER = TG_BOT_FOLDER /"assets"
+IMAGE_FOLDER = ASSET_FOLDER / "images"
 ENV_PATH = PROJECT_PATH / ".env"
 
 if not ENV_PATH.exists():

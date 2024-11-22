@@ -80,10 +80,10 @@ msgid "max_profiles_msg"
 msgstr "<b>❌ You have already created the maximum number of profiles (3) for one account!</b>\n\nYou can delete one of the existing profiles before creating a new one."
 
 msgid "send_prof_name_msg"
-msgstr "✨ <b>Send the profile name</b>\n\nFor example: <i>James Johnson</i>"
+msgstr "✨ <b>Send the name</b>\n\nFor example: <i>James Johnson</i>"
 
 msgid "prof_name_err_msg"
-msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the profile name again!"
+msgstr "⚠️ <b>Error!</b>\n\nPlease try entering the name again!"
 
 msgid "send_birth_date_msg"
 msgstr "🎉🎂 <b>Send your date of birth</b>\n\nFor example: <i>20.12.2004</i>"
@@ -168,7 +168,7 @@ msgid "profile_change_location_btn"
 msgstr "📌 Location"
 
 msgid "title_changed_msg"
-msgstr "<b>Profile name changed! ✏️ </b>\n\nYour profile will now be displayed under the updated name."
+msgstr "<b>Name changed! ✏️ </b>\n\nYour profile will now be displayed under the updated name."
 
 msgid "birth_date_changed_msg"
 msgstr "<b>Date of birth changed! 🎂 </b>\n\nPlease note that this may affect your astrological calculations."
@@ -205,7 +205,7 @@ msgid "date_error_msg"
 msgstr "<b>Error! ⚠️</b>\n\nPlease enter the date again in the correct format so that we can calculate the horoscope."
 
 msgid "mail_subscribed_msg"
-msgstr "<b>You are subscribed to the daily newsletter! ✅</b>\n\nEvery day at <i>7:00 AM MSK</i>, you will receive a daily forecast!"
+msgstr "b> Dear subscribers! 🌟</b>\n\n Thank you for joining our horoscope channel! We are glad to welcome you to our society of star seekers. Every morning at <i>7:00</i> You will receive fresh forecasts that will help you make your day brighter and more successful!\n\n<b>May the stars lead you to new heights! ✨</b>\n\nWith love, <i>{}</i>"
 
 msgid "mail_unsubscribe_msg"
 msgstr "<b>You are unsubscribed from the daily newsletter! ❌</b>\n\nYou can subscribe again to receive daily forecasts at <i>7:00 AM MSK</i>!"
