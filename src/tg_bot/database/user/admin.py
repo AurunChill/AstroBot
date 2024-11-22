@@ -25,6 +25,7 @@ class UserAdmin(ModelView, model=User):
     ]
 
     column_filters = [
+        User.id,
         User.user_id,
         User.name,
         User.locale,
@@ -34,6 +35,7 @@ class UserAdmin(ModelView, model=User):
     ]
 
     column_labels = {
+        User.id: "ID",
         User.user_id: "User ID",
         User.name: "Название",
         User.locale: "Язык",
