@@ -17,7 +17,7 @@ async def check_subscription():
                 with i18n.context():
                     user.subscription = Subscription.FREELY
                     user.subscription_expiration_date = None
-                    await update_user(user_id=user.id, updated_user=user)
+                    await update_user(user_id=user.user_id, updated_user=user)
                     await bot.send_message(
-                        chat_id=user.id, text=_("subscription_expired_msg")
+                        chat_id=user.user_id, text=_("subscription_expired_msg")
                     )

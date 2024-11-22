@@ -42,8 +42,8 @@ async def find_current_profile_by_user_id(user_id: int) -> Optional[Profile]:
     async with async_session_maker() as session:
         stmt = (
             select(Profile)
-            .join(User, Profile.user_id == User.id)
-            .where(Profile.id == User.current_profile_id, User.id == user_id)
+            .join(User, Profile.user_id == User.user_id)
+            .where(Profile.id == User.current_profile_id, User.user_id == user_id)
         )
         result = await session.execute(stmt)
         profile = result.scalars().first()

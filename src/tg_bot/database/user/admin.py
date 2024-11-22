@@ -5,7 +5,7 @@ from database.user.models import Subscription, User
 
 class UserAdmin(ModelView, model=User):
     column_list = [
-        User.id,
+        User.user_id,
         User.name,
         User.locale,
         User.subscription,
@@ -22,7 +22,7 @@ class UserAdmin(ModelView, model=User):
     ]
 
     column_filters = [
-        User.id,
+        User.user_id,
         User.name,
         User.locale,
         User.subscription,
@@ -37,7 +37,7 @@ class UserAdmin(ModelView, model=User):
     ]
 
     column_labels = {
-        User.id: "ID",
+        User.user_id: "ID",
         User.name: "Название",
         User.locale: "Язык",
         User.subscription: "Подписка",

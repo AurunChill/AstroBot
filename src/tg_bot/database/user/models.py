@@ -23,7 +23,11 @@ class User(Base):
     __tablename__ = 'User'
 
     id: Mapped[BigInteger] = mapped_column(
-        BigInteger, unique=True, index=True, nullable=False, primary_key=True
+        BigInteger, unique=True, index=True, nullable=False, primary_key=True, autoincrement=True
+    )
+
+    user_id: Mapped[BigInteger] = mapped_column(
+        BigInteger, unique=True, nullable=True
     )
 
     name: Mapped[str] = mapped_column(
@@ -53,7 +57,7 @@ class User(Base):
     )
 
     def __doc__(self):
-        return f'{self.__class__.__name__}({self.id})'
+        return f'{self.__class__.__name__}({self.user_id})'
 
     def __str__(self):
-        return f'User({self.id})'
+        return f'User({self.user_id})'

@@ -10,5 +10,5 @@ async def send_mailing():
     for user in users:
         if user.is_mail_subscribed:
             with i18n.context():
-                horoscope = await make_horoscope(user_id=user.id, date="today")
-                await bot.send_message(chat_id=user.id, text=horoscope)
+                horoscope = await make_horoscope(user_id=user.user_id, date="today")
+                await bot.send_message(chat_id=user.user_id, text=horoscope)

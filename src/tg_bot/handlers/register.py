@@ -121,7 +121,7 @@ async def handle_birth_location_state(message: Message, state: FSMContext):
 
 
 async def process_data(fsm_data: dict, user: User) -> Profile:
-    user_id = user.id
+    user_id = user.user_id
     user = await find_user_by_id(user_id=user_id)
     title = fsm_data.get("title")
 

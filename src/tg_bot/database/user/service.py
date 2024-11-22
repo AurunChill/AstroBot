@@ -20,7 +20,7 @@ async def create_user(user: User) -> User:
 async def find_user_by_id(user_id: int) -> Optional[User]:
     """Find a user by their ID."""
     async with async_session_maker() as session:
-        stmt = select(User).where(User.id == user_id)
+        stmt = select(User).where(User.user_id == user_id)
         result = await session.execute(stmt)
         user = result.scalars().first()
         logger.info(f"User fetched by ID {user_id}: {user}")
@@ -40,7 +40,7 @@ async def find_all_users() -> List[User]:
 async def update_user(user_id: int, updated_user: User) -> Optional[User]:
     """Update a user's data dynamically without explicitly naming columns."""
     async with async_session_maker() as session:
-        stmt = select(User).where(User.id == user_id)
+        stmt = select(User).where(User.user_id == user_id)
         result = await session.execute(stmt)
         existing_user = result.scalars().first()
 
@@ -61,7 +61,7 @@ async def update_user(user_id: int, updated_user: User) -> Optional[User]:
 async def delete_user(user_id: int) -> Optional[User]:
     """Delete a user by their ID."""
     async with async_session_maker() as session:
-        stmt = select(User).where(User.id == user_id)
+        stmt = select(User).where(User.user_id == user_id)
         result = await session.execute(stmt)
         user = result.scalars().first()
 
@@ -91,7 +91,7 @@ async def set_current_profile(user_id: int, profile_id: int) -> Optional[User]:
             )
             return None
 
-        stmt = select(User).where(User.id == user_id)
+        stmt = select(User).where(User.user_id == user_id)
         result = await session.execute(stmt)
         user = result.scalars().first()
 
