@@ -22,6 +22,8 @@ Relationships
 For each item you have to write two or three sentences, no more, but no less! Don't use lists in your answers. You can use emoticons. Just a calculation, nothing more. Do not give any additional comments (very important)!
 
 AN EXAMPLE OF A PART OF the output (follow it strictly):
+Horoscope: Sagittarius
+
 🔷 Success
  - Rapid success due to luck 
 
